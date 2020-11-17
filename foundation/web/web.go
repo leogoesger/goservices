@@ -75,6 +75,7 @@ func (a *App) Handle(method string, path string, handler Handler, mw ...Middlewa
 
 		// Call the wrapped handler functions.
 		if err := handler(ctx, w, r); err != nil {
+			a.SignalShutdown()
 			return
 		}
 	}
