@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ardanlabs/service/foundation/web"
+	"github.com/leogoesger/goservices/foundation/web"
 )
 
 // API constructs an http.Handler with all application routes defined.
