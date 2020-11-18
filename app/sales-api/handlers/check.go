@@ -12,7 +12,9 @@ import (
 func readiness(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
 	if n := rand.Intn(100); n%2 == 0 {
 		err := errors.New("bill an error")
-		// return err
+		// web.NewShutdownError("hello") // shutdown
+		// return err // Not trusted error
+		// Trusted Error
 		return web.NewRequestError(err, http.StatusBadRequest)
 	}
 
