@@ -24,6 +24,7 @@ func GenToken(log *log.Logger) error {
 
 	claims := struct {
 		jwt.StandardClaims
+		Kid string
 		Roles []string
 	}{
 		StandardClaims: jwt.StandardClaims{
@@ -31,13 +32,15 @@ func GenToken(log *log.Logger) error {
 			Subject:   "5cf37266-3473-4006-984f-9325122678b7",
 			ExpiresAt: time.Now().Add(8760 * time.Hour).Unix(),
 			IssuedAt:  time.Now().Unix(),
-		},
+		},			
 		Roles: []string{"ADMIN"},
 	}
 
 	algorithm := "RS256"
 	method := jwt.GetSigningMethod(algorithm)
 	token := jwt.NewWithClaims(method, claims)
+	token.Header["kid"] = "54bb2165-71e1-41a6-af3e-7da4a0e1e2c1"
+	
 	str, err := token.SignedString(privateKey)
 	if err != nil {
 		return errors.Wrap(err, "signing token")
