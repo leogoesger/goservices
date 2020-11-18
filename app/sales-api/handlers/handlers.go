@@ -7,15 +7,17 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/leogoesger/goservices/business/auth"
 	"github.com/leogoesger/goservices/business/mid"
 	"github.com/leogoesger/goservices/foundation/web"
 )
 
 // API constructs an http.Handler with all application routes defined.
-func API(build string, shutdown chan os.Signal, log *log.Logger) *web.App {
+func API(build string, shutdown chan os.Signal, log *log.Logger, a *auth.Auth) *web.App {
 	app := web.NewApp(shutdown, mid.Logger(log), mid.Errors(log),mid.Metrics(), mid.Panics(log))
 
 	app.Handle(http.MethodGet, "/readiness", readiness)
+	app.Handle(http.MethodGet, "/auth", readiness, mid.Authenticate(a), mid.Authorize(auth.RoleAdmin))
 
 	return app
 }
