@@ -4,6 +4,7 @@ go 1.15
 
 require (
 	github.com/ardanlabs/conf v1.3.2
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/dimfeld/httptreemux/v5 v5.2.2
 	github.com/google/go-cmp v0.5.3 // indirect
 	github.com/google/uuid v1.1.2
