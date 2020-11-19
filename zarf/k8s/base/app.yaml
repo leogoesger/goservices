@@ -17,6 +17,11 @@ spec:
       - name: app
         image: sales-api-amd64:1.0
         env:
+        - name: SALES_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: db_host
         - name: KUBERNETES_NAMESPACE
           valueFrom:
             fieldRef:
