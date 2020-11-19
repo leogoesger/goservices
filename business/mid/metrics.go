@@ -5,6 +5,7 @@ import (
 	"expvar"
 	"net/http"
 	"runtime"
+	"strings"
 
 	"github.com/leogoesger/goservices/foundation/web"
 )
@@ -28,6 +29,12 @@ func Metrics() web.Middleware {
 
 		// Create the handler that will be attached in the middleware chain.
 		h := func(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
+
+			// Don't count anything on /debug routes towards metrics.
+			// Call the next handler to continue processing.
+			if strings.HasPrefix(r.URL.Path, "/debug") {
+				return handler(ctx, w, r)
+			}
 
 			// Call the next handler.
 			err := handler(ctx, w, r)

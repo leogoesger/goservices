@@ -1,0 +1,4 @@
+zarf/
+.dockerignore
+LICENSE
+makefile
