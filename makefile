@@ -54,8 +54,10 @@ gentoken:
 	go run app/admin/main.go gentoken
 
 testauth:
-	cd /Users/bill/code/class/business/auth; \
-	go test -v
+	go test -v ./business/auth
+
+testuser:
+	go test -v ./business/data/user
 
 test:
 	 go test ./... -count=1
