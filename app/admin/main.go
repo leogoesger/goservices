@@ -7,6 +7,7 @@ import (
 
 	"github.com/ardanlabs/conf"
 	"github.com/leogoesger/goservices/app/admin/commands"
+	"github.com/leogoesger/goservices/foundation/database"
 	"github.com/pkg/errors"
 )
 
@@ -32,6 +33,13 @@ func run(log *log.Logger) error {
 	var cfg struct {
 		conf.Version
 		Args conf.Args
+		DB   struct {
+			User       string `conf:"default:postgres"`
+			Password   string `conf:"default:postgres,noprint"`
+			Host       string `conf:"default:0.0.0.0"`
+			Name       string `conf:"default:postgres"`
+			DisableTLS bool   `conf:"default:true"`
+		}
 	}
 	cfg.Version.SVN = build
 	cfg.Version.Desc = "copyright information here"
@@ -66,12 +74,25 @@ func run(log *log.Logger) error {
 	// =========================================================================
 	// Commands
 
+	dbConfig := database.Config{
+		User:       cfg.DB.User,
+		Password:   cfg.DB.Password,
+		Host:       cfg.DB.Host,
+		Name:       cfg.DB.Name,
+		DisableTLS: cfg.DB.DisableTLS,
+	}
+
 	switch cfg.Args.Num(0) {
 	case "genkey":
 		if err := commands.GenKey(); err != nil {
 			return errors.Wrap(err, "key generation")
 		}
 
+	case "seed":
+		if err := commands.Seed(dbConfig); err != nil {
+			return errors.Wrap(err, "seeding database")
+		}
+		
 	case "gentoken":
 		if err := commands.GenToken(log); err != nil {
 			return errors.Wrap(err, "generating token")
