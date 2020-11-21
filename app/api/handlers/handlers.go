@@ -25,6 +25,7 @@ func API(build string, shutdown chan os.Signal, log *log.Logger, a *auth.Auth, d
 	}
 	app.HandleDebug(http.MethodGet, "/readiness", cg.readiness)
 	app.HandleDebug(http.MethodGet, "/liveness", cg.liveness)
+	app.Handle(http.MethodGet, "/", cg.liveness)
 
 	ug := userGroup{
 		user: user.New(log, db),
