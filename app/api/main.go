@@ -178,8 +178,13 @@ func run(log *log.Logger) error {
 	shutdown := make(chan os.Signal, 1)
 	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
 
+	apiHost := cfg.Web.APIHost
+	port := os.Getenv("PORT")
+	if port != "" {
+		apiHost = "0.0.0.0:" + port
+	}
 	api := http.Server{
-		Addr:         cfg.Web.APIHost,
+		Addr:         apiHost,
 		Handler:      handlers.API(build, shutdown, log, auth, db),
 		ReadTimeout:  cfg.Web.ReadTimeout,
 		WriteTimeout: cfg.Web.WriteTimeout,
