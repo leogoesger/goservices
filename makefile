@@ -49,7 +49,7 @@ kind-status-full:
 # ==============================================================================
 
 run:
-	go run app/sales-api/main.go
+	go run app/api/main.go
 
 genkey:
 	go run app/admin/main.go genkey
