@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"context"
@@ -29,7 +29,8 @@ Need to figure out timeouts for http service.
 // build is the git version of this program. It is set using build flags in the makefile.
 var build = "develop"
 
-func main() {
+// Start api
+func Start() {
 	log := log.New(os.Stdout, "SALES : ", log.LstdFlags|log.Lmicroseconds|log.Lshortfile)
 
 	if err := run(log); err != nil {
