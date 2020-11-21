@@ -1,20 +1,14 @@
 // Package windy contains user related CRUD functionality.
 package windy
 
-// UserInput contains information needed to create a new User.
-type UserInput struct {
-	X     float32 `json:"x" validate:"required"`
-	Y     float32 `json:"y" validate:"required,email"`
-	Hours int     `json:"hours" validate:"required"`
-}
-
 // Wind ...
 type Wind struct {
-	TotalWind float32
+	TotalWind float64
+	UnitCode  string
 }
 
-// Info ..
-type Info struct {
+// AggregatedWind ..
+type AggregatedWind struct {
 	N  Wind
 	S  Wind
 	W  Wind
@@ -25,8 +19,14 @@ type Info struct {
 	SW Wind
 }
 
-// NOAAResponse ..
-type NOAAResponse struct {
+// Report ...
+type Report struct {
+	NOAAElevation  NOAAElevation
+	AggregatedWind AggregatedWind
+}
+
+// NOAAGridResponse ..
+type NOAAGridResponse struct {
 	Properties NOAAProperty `json:"properties"`
 }
 
@@ -49,4 +49,15 @@ type NOAAPeriod struct {
 	Temperature   float32 `json:"temperature"`
 	WindSpeed     string  `json:"windSpeed"`
 	WindDirection string  `json:"windDirection"`
+}
+
+// NOAAPointResponse ...
+type NOAAPointResponse struct {
+	Properties NOAAPointProperty `json:"properties"`
+}
+
+// NOAAPointProperty ...
+type NOAAPointProperty struct {
+	ForecastOffice string `json:"forecastOffice"`
+	ForecastHourly string `json:"forecastHourly"`
 }
